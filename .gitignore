@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Per-episode video files (added manually for each episode)
+public/*.mp4
+public/*.wav
+public/*.webm
+
+# Rendered output
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Remotion cache
+.remotion/

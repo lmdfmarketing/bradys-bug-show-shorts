@@ -1,0 +1,26 @@
+{
+  "name": "remotion-shorts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:all": "remotion render src/index.ts part-1 out/part-1.mp4 && remotion render src/index.ts part-2 out/part-2.mp4 && remotion render src/index.ts part-3 out/part-3.mp4",
+    "render:1": "remotion render src/index.ts part-1 out/part-1.mp4",
+    "render:2": "remotion render src/index.ts part-2 out/part-2.mp4",
+    "render:3": "remotion render src/index.ts part-3 out/part-3.mp4",
+    "prepare:clips": "bash prepare.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/cli": "^4.0.462",
+    "@remotion/google-fonts": "^4.0.464",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "remotion": "^4.0.462",
+    "typescript": "^6.0.3"
+  }
+}
