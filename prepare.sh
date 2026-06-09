@@ -72,13 +72,12 @@ with wave.open('rewind-sfx.wav','w') as wf:
 "
 
 echo "📺 Step 3/4 — Re-encoding bumpers to 1080x1920 @ 30fps..."
-# Add silent audio track in case bumper has no audio (-f lavfi -i anullsrc ensures audio always exists)
 ffmpeg -i bumper-p2.mp4 -f lavfi -i anullsrc=r=44100:cl=stereo \
-  -vf "scale=1080:1920,fps=30" -filter_complex "[1:a]aformat=sample_rates=44100[sa]" \
-  -map 0:v -map "[sa]" -shortest $OPTS bumper-p2-kf.mp4 -y 2>/dev/null
+  -filter_complex "[0:v]scale=1080:1920,fps=30[v];[1:a]aformat=sample_rates=44100[a]" \
+  -map "[v]" -map "[a]" -shortest $OPTS bumper-p2-kf.mp4 -y 2>/dev/null
 ffmpeg -i bumper-p3.mp4 -f lavfi -i anullsrc=r=44100:cl=stereo \
-  -vf "scale=1080:1920,fps=30" -filter_complex "[1:a]aformat=sample_rates=44100[sa]" \
-  -map 0:v -map "[sa]" -shortest $OPTS bumper-p3-kf.mp4 -y 2>/dev/null
+  -filter_complex "[0:v]scale=1080:1920,fps=30[v];[1:a]aformat=sample_rates=44100[a]" \
+  -map "[v]" -map "[a]" -shortest $OPTS bumper-p3-kf.mp4 -y 2>/dev/null
 
 echo "🔗 Step 4/4 — Concatenating into single-file videos for Parts 2 & 3..."
 
