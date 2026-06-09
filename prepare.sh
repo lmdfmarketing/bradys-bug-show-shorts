@@ -72,8 +72,13 @@ with wave.open('rewind-sfx.wav','w') as wf:
 "
 
 echo "📺 Step 3/4 — Re-encoding bumpers to 1080x1920 @ 30fps..."
-ffmpeg -i bumper-p2.mp4 -vf "scale=1080:1920,fps=30" $OPTS bumper-p2-kf.mp4 -y 2>/dev/null
-ffmpeg -i bumper-p3.mp4 -vf "scale=1080:1920,fps=30" $OPTS bumper-p3-kf.mp4 -y 2>/dev/null
+# Add silent audio track in case bumper has no audio (-f lavfi -i anullsrc ensures audio always exists)
+ffmpeg -i bumper-p2.mp4 -f lavfi -i anullsrc=r=44100:cl=stereo \
+  -vf "scale=1080:1920,fps=30" -filter_complex "[1:a]aformat=sample_rates=44100[sa]" \
+  -map 0:v -map "[sa]" -shortest $OPTS bumper-p2-kf.mp4 -y 2>/dev/null
+ffmpeg -i bumper-p3.mp4 -f lavfi -i anullsrc=r=44100:cl=stereo \
+  -vf "scale=1080:1920,fps=30" -filter_complex "[1:a]aformat=sample_rates=44100[sa]" \
+  -map 0:v -map "[sa]" -shortest $OPTS bumper-p3-kf.mp4 -y 2>/dev/null
 
 echo "🔗 Step 4/4 — Concatenating into single-file videos for Parts 2 & 3..."
 
@@ -83,12 +88,12 @@ echo "🔗 Step 4/4 — Concatenating into single-file videos for Parts 2 & 3...
 # Part 2: hook → rewind → main → bumper
 ffmpeg -i clip-p2-hook-kf.mp4 -i hook-p2-rev-kf.mp4 -i clip-p2-main-kf.mp4 -i bumper-p3-kf.mp4 \
   -filter_complex "[0:v][0:a][1:v][1:a][2:v][2:a][3:v][3:a]concat=n=4:v=1:a=1[v][a]" \
-  -map "[v]" -map "[a]" $OPTS video-p2.mp4 -y 2>/dev/null
+  -map "[v]" -map "[a]" $OPTS video-p2.mp4 -y
 
 # Part 3: hook → rewind → main
 ffmpeg -i clip-p3-hook-kf.mp4 -i hook-p3-rev-kf.mp4 -i clip-p3-main-kf.mp4 \
   -filter_complex "[0:v][0:a][1:v][1:a][2:v][2:a]concat=n=3:v=1:a=1[v][a]" \
-  -map "[v]" -map "[a]" $OPTS video-p3.mp4 -y 2>/dev/null
+  -map "[v]" -map "[a]" $OPTS video-p3.mp4 -y
 
 echo ""
 echo "✅ All clips ready! Now run:  npm run render:all"
