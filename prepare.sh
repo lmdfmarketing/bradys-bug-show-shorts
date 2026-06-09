@@ -47,26 +47,18 @@ echo "⏪ Step 2/3 — Generating reversed hooks (2s rewind)..."
 HOOK_P2_SPEED=$(awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 2}")
 HOOK_P3_SPEED=$(awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 2}")
 
-# Build atempo chain: ffmpeg atempo max is 100, but chain if > 2 for safety
-build_atempo() {
-  local speed=$1
-  local s=$(awk "BEGIN {printf \"%.4f\", $speed}")
-  if awk "BEGIN {exit !($speed > 2.0)}"; then
-    local half=$(awk "BEGIN {printf \"%.4f\", $speed / 2}")
-    echo "atempo=2.0,atempo=${half}"
-  else
-    echo "atempo=${s}"
-  fi
-}
+# Build atempo filter string (chain two atempos if speed > 2.0)
+P2_ATEMPO=$(awk "BEGIN {s=$P2_HOOK_DUR/2; if(s>2){printf \"atempo=2.0,atempo=%.4f\",s/2} else {printf \"atempo=%.4f\",s}}")
+P3_ATEMPO=$(awk "BEGIN {s=$P3_HOOK_DUR/2; if(s>2){printf \"atempo=2.0,atempo=%.4f\",s/2} else {printf \"atempo=%.4f\",s}}")
 
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
-  -af "areverse,$(build_atempo $HOOK_P2_SPEED)" \
+  -af "areverse,${P2_ATEMPO}" \
   -t 2 $OPTS hook-p2-rev-kf.mp4 -y 2>/dev/null
 
 ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P3_SPEED}" \
-  -af "areverse,$(build_atempo $HOOK_P3_SPEED)" \
+  -af "areverse,${P3_ATEMPO}" \
   -t 2 $OPTS hook-p3-rev-kf.mp4 -y 2>/dev/null
 
 echo "🎵 Generating rewind sound..."
