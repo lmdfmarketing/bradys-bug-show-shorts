@@ -34,7 +34,7 @@ P3_HOOK_DUR=$((P3_HOOK_END - P3_HOOK_START))
 
 echo "📐 Step 1/3 — Trimming clips (30fps, all-keyframe)..."
 
-OPTS="-c:v libx264 -crf 17 -preset fast -g 1 -keyint_min 1 -sc_threshold 0 -profile:v baseline -pix_fmt yuv420p -c:a aac -ar 44100"
+OPTS="-c:v libx264 -crf 17 -preset fast -g 1 -keyint_min 1 -sc_threshold 0 -profile:v baseline -pix_fmt yuv420p -movflags +faststart -c:a aac -ar 44100"
 
 ffmpeg -ss 0          -t $P1_END     -i video.mp4 -vf "scale=1080:1920,fps=30" $OPTS clip-p1-kf.mp4          -y 2>/dev/null
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 -vf "scale=1080:1920,fps=30" $OPTS clip-p2-hook-kf.mp4     -y 2>/dev/null
