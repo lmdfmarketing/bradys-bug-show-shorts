@@ -24,9 +24,9 @@ echo ""
 
 # ── Load timestamps from config (edit values below to match config.ts) ──
 P1_END=150
-P2_HOOK_START=201; P2_HOOK_END=211
+P2_HOOK_START=336; P2_HOOK_END=348
 P2_MAIN_START=150; P2_MAIN_END=317
-P3_HOOK_START=336; P3_HOOK_END=346
+P3_HOOK_START=406; P3_HOOK_END=414
 P3_MAIN_START=317
 
 P2_HOOK_DUR=$((P2_HOOK_END - P2_HOOK_START))
@@ -49,7 +49,7 @@ HOOK_P3_SPEED=$(echo "$P3_HOOK_DUR / 2" | bc -l | xargs printf "%.4f")
 
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
-  -af "areverse,atempo=${HOOK_P2_SPEED}" \
+  -af "areverse,atempo=2.0,atempo=$(echo "$HOOK_P2_SPEED / 2" | bc -l | xargs printf "%.4f")" \
   -t 2 $OPTS hook-p2-rev-kf.mp4 -y 2>/dev/null
 
 ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 \
