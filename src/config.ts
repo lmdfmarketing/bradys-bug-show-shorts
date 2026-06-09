@@ -22,16 +22,16 @@ export const VIDEO_P3 = "video-p3.mp4";   // hook + rewind + main
 
 // ── Clip durations in seconds ──
 export const CLIP_P1_SEC            = 150;        // 0:00 → 2:30
-export const CLIP_P2_HOOK_SEC       = 10;         // 3:21 → 3:31
+export const CLIP_P2_HOOK_SEC       = 12;         // 5:36 → 5:48
 export const CLIP_P2_MAIN_SEC       = 167;        // 2:30 → 5:17
-export const CLIP_P3_HOOK_SEC       = 10;         // 5:36 → 5:46
+export const CLIP_P3_HOOK_SEC       = 8;          // 6:46 → 6:54
 export const CLIP_P3_MAIN_SEC       = 142;        // 5:17 → 7:39
 export const BUMPER_P2_DURATION_SEC = 9.042;
 export const BUMPER_P3_DURATION_SEC = 8.042;
 
 // ── Bumper text (ENGLISH ONLY) ──
-export const BUMPER_P2_TEXT = "Will Dr. Blendin destroy our ecosystem?\nFind out in Part 2!";
-export const BUMPER_P3_TEXT = "The race against time has begun!\nSee how it ends in Part 3!";
+export const BUMPER_P2_TEXT = "Will Dr. Blendin's plan work?\nFind out in Part 2!";
+export const BUMPER_P3_TEXT = "The disguise is blown!\nWhat will Brady do now? See the finale in Part 3!";
 
 // ─────────────────────────────────────────────
 //  ANIMATION CONSTANTS
