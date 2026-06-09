@@ -21,17 +21,17 @@ export const VIDEO_P2 = "video-p2.mp4";   // hook + rewind + main + bumper
 export const VIDEO_P3 = "video-p3.mp4";   // hook + rewind + main
 
 // ── Clip durations in seconds ──
-export const CLIP_P1_SEC            = 79;         // 0:00 → 1:19
-export const CLIP_P2_HOOK_SEC       = 10;         // 2:43 → 2:53
-export const CLIP_P2_MAIN_SEC       = 83;         // 1:19 → 2:42
-export const CLIP_P3_HOOK_SEC       = 10;         // 3:02 → 3:12
-export const CLIP_P3_MAIN_SEC       = 67;         // 2:42 → 3:49
-export const BUMPER_P2_DURATION_SEC = 9.042;
-export const BUMPER_P3_DURATION_SEC = 8.042;
+export const CLIP_P1_SEC            = 150;        // 0:00 → 2:30
+export const CLIP_P2_HOOK_SEC       = 12;         // 5:36 → 5:48
+export const CLIP_P2_MAIN_SEC       = 167;        // 2:30 → 5:17
+export const CLIP_P3_HOOK_SEC       = 8;          // 6:46 → 6:54
+export const CLIP_P3_MAIN_SEC       = 142;        // 5:17 → 7:39
+export const BUMPER_P2_DURATION_SEC = 9.042;      // TODO: verify after prepare:clips
+export const BUMPER_P3_DURATION_SEC = 8.042;      // TODO: verify after prepare:clips
 
 // ── Bumper text (ENGLISH ONLY) ──
-export const BUMPER_P2_TEXT = "What happens to Earth without the stars?\nFind out in Part 2!";
-export const BUMPER_P3_TEXT = "Only a 1% chance?!\nSee how it all ends in Part 3!";
+export const BUMPER_P2_TEXT = "Will Dr. Blendin's plan work?\nFind out in Part 2!";
+export const BUMPER_P3_TEXT = "The disguise is blown!\nWhat will Brady do now? Watch the finale in Part 3!";
 
 // ─────────────────────────────────────────────
 //  ANIMATION CONSTANTS
