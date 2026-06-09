@@ -44,17 +44,19 @@ ffmpeg -ss $P3_MAIN_START -i video.mp4    -vf "fps=30" $OPTS clip-p3-main-kf.mp4
 
 echo "⏪ Step 2/3 — Generating reversed hooks (2s rewind)..."
 
-HOOK_P2_SPEED=$(echo "$P2_HOOK_DUR / 2" | bc -l | xargs printf "%.4f")
-HOOK_P3_SPEED=$(echo "$P3_HOOK_DUR / 2" | bc -l | xargs printf "%.4f")
+HOOK_P2_SPEED=$(awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 2}")
+HOOK_P3_SPEED=$(awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 2}")
+HOOK_P2_ATEMPO3=$(awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 8}")
+HOOK_P3_ATEMPO2=$(awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 4}")
 
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
-  -af "areverse,atempo=2.0,atempo=2.0,atempo=$(echo "$HOOK_P2_SPEED / 4" | bc -l | xargs printf "%.4f")" \
+  -af "areverse,atempo=2.0,atempo=2.0,atempo=${HOOK_P2_ATEMPO3}" \
   -t 2 $OPTS hook-p2-rev-kf.mp4 -y 2>/dev/null
 
 ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P3_SPEED}" \
-  -af "areverse,atempo=2.0,atempo=$(echo "$HOOK_P3_SPEED / 2" | bc -l | xargs printf "%.4f")" \
+  -af "areverse,atempo=2.0,atempo=${HOOK_P3_ATEMPO2}" \
   -t 2 $OPTS hook-p3-rev-kf.mp4 -y 2>/dev/null
 
 echo "🎵 Generating rewind sound..."
