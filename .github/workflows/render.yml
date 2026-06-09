@@ -1,50 +1,38 @@
 name: Render Shorts
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'public/video.mp4'
-      - 'public/bumper-p2.mp4'
-      - 'public/bumper-p3.mp4'
-      - 'src/config.ts'
-      - 'prepare.sh'
   workflow_dispatch:
 
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 60
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg bc
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+        run: sudo apt-get install -y ffmpeg
 
       - name: Install dependencies
         run: npm ci
 
       - name: Prepare clips
-        run: npm run prepare:clips
+        working-directory: public
+        run: bash ../prepare.sh
 
       - name: Render all parts
-        run: |
-          mkdir -p out
-          npx remotion render src/index.ts part-1 out/part-1.mp4 --concurrency=2
-          npx remotion render src/index.ts part-2 out/part-2.mp4 --concurrency=2
-          npx remotion render src/index.ts part-3 out/part-3.mp4 --concurrency=2
+        run: npm run render:all
 
       - name: Upload rendered videos
         uses: actions/upload-artifact@v4
         with:
-          name: shorts-rendered
+          name: shorts
           path: out/*.mp4
           retention-days: 7
