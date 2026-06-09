@@ -1,8 +1,13 @@
 # Dependencies
 node_modules/
 
-# Per-episode video files (added manually for each episode)
-public/*.mp4
+# Per-episode generated/processed clips (created by prepare.sh — never commit these)
+public/clip-*.mp4
+public/hook-*.mp4
+public/video-p2.mp4
+public/video-p3.mp4
+public/bumper-p2-kf.mp4
+public/bumper-p3-kf.mp4
 public/*.wav
 public/*.webm
 
