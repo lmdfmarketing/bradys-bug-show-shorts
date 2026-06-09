@@ -52,12 +52,12 @@ HOOK_P3_ATEMPO2=$(awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 4}")
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
   -af "areverse,atempo=2.0,atempo=2.0,atempo=${HOOK_P2_ATEMPO3}" \
-  -t 2 $OPTS hook-p2-rev-kf.mp4 -y 2>/dev/null
+  -t 2 $OPTS hook-p2-rev-kf.mp4 -y
 
 ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P3_SPEED}" \
   -af "areverse,atempo=2.0,atempo=${HOOK_P3_ATEMPO2}" \
-  -t 2 $OPTS hook-p3-rev-kf.mp4 -y 2>/dev/null
+  -t 2 $OPTS hook-p3-rev-kf.mp4 -y
 
 echo "🎵 Generating rewind sound..."
 python3 -c "
