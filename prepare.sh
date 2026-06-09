@@ -49,7 +49,7 @@ HOOK_P3_SPEED=$(echo "$P3_HOOK_DUR / 2" | bc -l | xargs printf "%.4f")
 
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
-  -af "areverse,atempo=${HOOK_P2_SPEED}" \
+  -af "areverse,atempo=2.0,atempo=2.0,atempo=$(echo "$HOOK_P2_SPEED / 4" | bc -l | xargs printf "%.4f")" \
   -t 2 $OPTS hook-p2-rev-kf.mp4 -y 2>/dev/null
 
 ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 \
