@@ -44,10 +44,10 @@ ffmpeg -ss $P3_MAIN_START -i video.mp4    -vf "fps=30" $OPTS clip-p3-main-kf.mp4
 
 echo "⏪ Step 2/3 — Generating reversed hooks (2s rewind)..."
 
-HOOK_P2_SPEED=$(awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 2}")
-HOOK_P3_SPEED=$(awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 2}")
-HOOK_P2_ATEMPO3=$(awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 8}")
-HOOK_P3_ATEMPO2=$(awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 4}")
+HOOK_P2_SPEED=$(LC_NUMERIC=C awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 2}")
+HOOK_P3_SPEED=$(LC_NUMERIC=C awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 2}")
+HOOK_P2_ATEMPO3=$(LC_NUMERIC=C awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 8}")
+HOOK_P3_ATEMPO2=$(LC_NUMERIC=C awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 4}")
 
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
   -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
