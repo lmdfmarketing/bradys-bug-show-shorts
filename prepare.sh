@@ -36,11 +36,11 @@ echo "📐 Step 1/3 — Trimming clips (30fps, all-keyframe)..."
 
 OPTS="-c:v libx264 -crf 17 -preset fast -g 1 -keyint_min 1 -sc_threshold 0 -profile:v baseline -pix_fmt yuv420p -c:a aac -ar 44100"
 
-ffmpeg -ss 0          -t $P1_END     -i video.mp4 -vf "fps=30" $OPTS clip-p1-kf.mp4          -y 2>/dev/null
-ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 -vf "fps=30" $OPTS clip-p2-hook-kf.mp4     -y 2>/dev/null
-ffmpeg -ss $P2_MAIN_START -t $((P2_MAIN_END-P2_MAIN_START)) -i video.mp4 -vf "fps=30" $OPTS clip-p2-main-kf.mp4     -y 2>/dev/null
-ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 -vf "fps=30" $OPTS clip-p3-hook-kf.mp4     -y 2>/dev/null
-ffmpeg -ss $P3_MAIN_START -i video.mp4    -vf "fps=30" $OPTS clip-p3-main-kf.mp4     -y 2>/dev/null
+ffmpeg -ss 0          -t $P1_END     -i video.mp4 -vf "scale=1080:1920,fps=30" $OPTS clip-p1-kf.mp4          -y 2>/dev/null
+ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 -vf "scale=1080:1920,fps=30" $OPTS clip-p2-hook-kf.mp4     -y 2>/dev/null
+ffmpeg -ss $P2_MAIN_START -t $((P2_MAIN_END-P2_MAIN_START)) -i video.mp4 -vf "scale=1080:1920,fps=30" $OPTS clip-p2-main-kf.mp4     -y 2>/dev/null
+ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 -vf "scale=1080:1920,fps=30" $OPTS clip-p3-hook-kf.mp4     -y 2>/dev/null
+ffmpeg -ss $P3_MAIN_START -i video.mp4    -vf "scale=1080:1920,fps=30" $OPTS clip-p3-main-kf.mp4     -y 2>/dev/null
 
 echo "⏪ Step 2/3 — Generating reversed hooks (2s rewind)..."
 
@@ -50,12 +50,12 @@ HOOK_P2_ATEMPO3=$(LC_NUMERIC=C awk "BEGIN {printf \"%.4f\", $P2_HOOK_DUR / 8}")
 HOOK_P3_ATEMPO2=$(LC_NUMERIC=C awk "BEGIN {printf \"%.4f\", $P3_HOOK_DUR / 4}")
 
 ffmpeg -ss $P2_HOOK_START -t $P2_HOOK_DUR -i video.mp4 \
-  -vf "fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
+  -vf "scale=1080:1920,fps=30,reverse,setpts=PTS/${HOOK_P2_SPEED}" \
   -af "areverse,atempo=2.0,atempo=2.0,atempo=${HOOK_P2_ATEMPO3}" \
   -t 2 $OPTS hook-p2-rev-kf.mp4 -y
 
 ffmpeg -ss $P3_HOOK_START -t $P3_HOOK_DUR -i video.mp4 \
-  -vf "fps=30,reverse,setpts=PTS/${HOOK_P3_SPEED}" \
+  -vf "scale=1080:1920,fps=30,reverse,setpts=PTS/${HOOK_P3_SPEED}" \
   -af "areverse,atempo=2.0,atempo=${HOOK_P3_ATEMPO2}" \
   -t 2 $OPTS hook-p3-rev-kf.mp4 -y
 
